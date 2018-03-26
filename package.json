@@ -1,0 +1,29 @@
+{
+  "name": "memory",
+  "version": "1.0.0",
+  "description": "Second project from udacity nadodegree front end developer ",
+  "main": "index.html ",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fr33d-/udacityFrontenddevProject2.git"
+  },
+  "author": "Frederic Wollinger",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fr33d-/udacityFrontenddevProject2/issues"
+  },
+  "homepage": "https://github.com/fr33d-/udacityFrontenddevProject2#readme",
+  "dependencies": {
+    "font-awesome": "^4.7.0",
+    "gulp": "^3.9.1",
+    "gulp-connect": "^5.5.0",
+    "gulp-livereload": "^3.8.1",
+    "gulp-prettier": "^1.1.0",
+    "gulp-sass": "^3.1.0",
+    "npm": "^5.7.1",
+    "prettier": "1.11.1"
+  }
+}

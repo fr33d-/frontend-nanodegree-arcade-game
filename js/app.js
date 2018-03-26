@@ -25,11 +25,57 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 
+class Player {
+    constructor() {
+        this.sprite = 'images/char-horn-girl.png';
+        // this.sprite = 'images/char-boy.png';
+        this.x = 2;
+        this.y = 5;
+    }
+
+    render() {
+        ctx.drawImage(Resources.get(this.sprite), this.x * 101, this.y * 83);
+    };
+
+    update(dt) {
+        // You should multiply any movement by the dt parameter
+        // which will ensure the game runs at the same speed for
+        // all computers.
+    };
+
+    handleInput(key) {
+        console.log(key);
+
+        switch (key) {
+            case 'left':
+                if (this.x >= 1) {
+                    this.x--;
+                }
+                break;
+            case 'up':
+                if (this.y >= 1) {
+                    this.y--;
+                }
+                break;
+            case 'right':
+                if (this.x < 6) {
+                    this.x++;
+                }
+                break;
+            case 'down':
+                if (this.x < 6) {
+                    this.y++;
+                }
+                break;
+        }
+    }
+};
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-
+var allEnemies = [];
+var player = new Player();
 
 
 // This listens for key presses and sends the keys to your
