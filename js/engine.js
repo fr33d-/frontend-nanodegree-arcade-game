@@ -13,6 +13,11 @@
  * writing app.js a little simpler to work with.
  */
 
+ let canvasWidth = 505;
+ let canvasHeight = 605;
+ let rowWidth = 83;
+ let rowHeight = 101;
+
 var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
@@ -24,8 +29,8 @@ var Engine = (function(global) {
         ctx = canvas.getContext('2d'),
         lastTime;
 
-    canvas.width = 505;
-    canvas.height = 606;
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
     doc.body.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
@@ -79,7 +84,8 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        updateAllEnemies(dt);
+        checkCollisions();
     }
 
     /* This is called by the update function and loops through all of the
@@ -134,7 +140,7 @@ var Engine = (function(global) {
                  * so that we get the benefits of caching these images, since
                  * we're using them over and over.
                  */
-                ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
+                ctx.drawImage(Resources.get(rowImages[row]), col * rowHeight, row * rowWidth);
             }
         }
 
