@@ -29,8 +29,7 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
 
-    //Todo: time save
-    this.x++;
+    this.x += dt*enemySpeed;
 };
 
 // Draw the enemy on the screen, required method for game
@@ -47,12 +46,16 @@ class Player {
         this.sprite = 'images/char-horn-girl.png';
         this.col = 6;
         this.row = 3;
+        this.x = (this.row-1) * 101;
+        this.y = (this.col-1) * 83 -20;
+        this.movementType = "go";
+
     }
 
     render() {
         // ctx.drawImage(Resources.get(this.sprite), this.col * rowHeight, this.row * rowWidth-20);
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    };
+    }
 
     update(dt) {
         // You should multiply any movement by the dt parameter
@@ -60,20 +63,61 @@ class Player {
         // all computers.
 
         //Todo: dt stuff
-        this.x = (this.row-1) * rowHeight;
-        this.y = (this.col-1) * rowWidth -20;
-    };
+        // this.x = (this.row-1) * rowHeight;
+        // this.y = (this.col-1) * rowWidth -20;
+
+        //Value the player should move to
+        var xValue = (this.row-1) * rowHeight;
+        var yValue = (this.col-1) * rowWidth -20;
+
+        if (this.movementType == "go") {
+            //Update the players position, so he/she moves to his position with the player speed
+            //+/- 5 px so the character is not flickering
+            if (this.x < xValue-5) {
+                this.x += dt * playerSpeed;
+            } else if (this.x > xValue+5) {
+                this.x -= dt * playerSpeed;
+            }
+
+            if (this.y < yValue-5) {
+                this.y += dt * playerSpeed;
+            } else if (this.y > yValue+5) {
+                this.y -= dt * playerSpeed;
+            }
+        }
+
+        if (this.movementType == "die") {
+            if (this.y < 600) {
+                this.y += dt * 1500;
+            } else {
+                this.movementType = "birth";
+                this.y = -100;
+            }
+        }
+
+        if (this.movementType == "birth") {
+            this.x = xValue;
+            if (this.y < yValue) {
+                this.y += dt * 1500;
+            } else {
+                this.movementType = "go";
+            }
+        }
+
+    }
 
     die() {
-        //Todo: do something when the player dies
+        //The player is dead: Set his "should go"-position to the initial values and he moves there with a nice animation defined in the update method
+        this.movementType = "die";
         this.col = 6;
         this.row = 3;
     }
 
     win() {
-        //Tod: what happens when the player wins?
+        //The player wins: Set his "should go"-position to the initial values and he moves there with a nice animation defined in the update method
+        this.movementType = "birth";
         this.col = 6;
-        this.row = 2;
+        this.row = 3;
     }
 
     handleInput(key) {
@@ -102,14 +146,14 @@ class Player {
                 break;
         }
     }
-};
+}
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 var player = new Player();
 var allEnemies = [];
-var difficulty = 3
+var difficulty = 3;
 var enemyFrequency = difficulty;
 
 function updateAllEnemies(dt) {
