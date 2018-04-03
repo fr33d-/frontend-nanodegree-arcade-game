@@ -1,46 +1,36 @@
 // Enemies our player must avoid
-var Enemy = function() {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-    this.x = -100;
+class Enemy {
+    constructor() {
+        // Variables applied to each of our instances go here,
+        // we've provided one for you to get started
+        this.x = -100;
+        this.speed = 50;
 
-    let random = Math.random();
+        var random = Math.ceil(Math.random()*3);
+        this.col = random + 1;
+        this.y = random*rowHeight - this.col*20;
 
-    if (random < 0.33) {
-        this.y = rowHeight-40;
-        this.col = 2;
-    } else if (random > 0.33 && random < 0.67) {
-        this.y = (2*rowHeight)-60;
-        this.col = 3;
-    } else if (random > 0.67) {
-        this.y = (3*rowHeight)-80;
-        this.col = 4;
+        // The image/sprite for our enemies, this uses
+        // a helper we've provided to easily load images
+        this.sprite = 'images/enemy-bug.png';
     }
 
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
-};
+    // Draw the enemy on the screen, required method for game
+    render() {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    };
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
+    // Update the enemy's position, required method for game
+    // Parameter: dt, a time delta between ticks
+    update(dt) {
+        // You should multiply any movement by the dt parameter
+        // which will ensure the game runs at the same speed for
+        // all computers.
+        this.x += dt*this.speed;
+    }
+}
 
-    this.x += dt*enemySpeed;
-};
-
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-
+// Player class
 class Player {
     constructor() {
         this.sprite = 'images/char-horn-girl.png';
@@ -49,6 +39,7 @@ class Player {
         this.x = (this.row-1) * 101;
         this.y = (this.col-1) * 83 -20;
         this.movementType = "go";
+        this.speed = 200;
 
     }
 
@@ -57,14 +48,10 @@ class Player {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 
-    update(dt) {
+    update(dt, allEnemies) {
         // You should multiply any movement by the dt parameter
         // which will ensure the game runs at the same speed for
         // all computers.
-
-        //Todo: dt stuff
-        // this.x = (this.row-1) * rowHeight;
-        // this.y = (this.col-1) * rowWidth -20;
 
         //Value the player should move to
         var xValue = (this.row-1) * rowHeight;
@@ -74,15 +61,15 @@ class Player {
             //Update the players position, so he/she moves to his position with the player speed
             //+/- 5 px so the character is not flickering
             if (this.x < xValue-5) {
-                this.x += dt * playerSpeed;
+                this.x += dt * this.speed;
             } else if (this.x > xValue+5) {
-                this.x -= dt * playerSpeed;
+                this.x -= dt * this.speed;
             }
 
             if (this.y < yValue-5) {
-                this.y += dt * playerSpeed;
+                this.y += dt * this.speed;
             } else if (this.y > yValue+5) {
-                this.y -= dt * playerSpeed;
+                this.y -= dt * this.speed;
             }
         }
 
@@ -104,6 +91,8 @@ class Player {
             }
         }
 
+        this.checkCollisions(allEnemies);
+
     }
 
     die() {
@@ -118,6 +107,30 @@ class Player {
         this.movementType = "birth";
         this.col = 6;
         this.row = 3;
+    }
+
+    checkCollisions(allEnemies) {
+        //Let the player die if he/she collides with an enemy
+        var xValue = this.x;
+        var colValue = this.col;
+        var playerIsDead = false;
+
+        allEnemies.forEach(function(enemy) {
+            if (enemy.x-75 <= xValue && enemy.x+75 >= xValue && enemy.col == colValue) {
+                if (playerIsDead == false) {
+                    playerIsDead = true;
+                }
+                console.log("You died");
+            }
+        });
+
+        if (playerIsDead) {
+            this.die();
+        }
+
+        if (this.col <= 1) {
+            this.win();
+        }
     }
 
     handleInput(key) {
@@ -173,21 +186,6 @@ function updateAllEnemies(dt) {
         }
     });
 }
-
-function checkCollisions() {
-    //Let the player die if he/she collides with an enemy
-    allEnemies.forEach(function(enemy) {
-        if (enemy.x-75 <= player.x && enemy.x+75 >= player.x && enemy.col == player.col) {
-            player.die();
-            console.log("You died");
-        }
-    });
-
-    if (player.col <= 1) {
-        player.win();
-    }
-}
-
 
 
 // This listens for key presses and sends the keys to your

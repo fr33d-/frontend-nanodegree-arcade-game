@@ -1,6 +1,6 @@
 # frontend-nanodegree-arcade-game
 
-Its a simple game for one of the third project in the udacity frontend developer [nanodegree](https://de.udacity.com/course/front-end-web-developer-nanodegree--nd001). 
+Its a simple game for one of the third project in the udacity frontend developer [nanodegree](https://de.udacity.com/course/front-end-web-developer-nanodegree--nd001).
 
 ### TOC
 1. Usage
@@ -13,12 +13,14 @@ Its a simple game for one of the third project in the udacity frontend developer
 ## Usage:
 ### To the players:
 
-The game works like the old arcade game Frogger. Just without frogs. 
-Move the player with the _up, down, left_ and _right_ keys of your keyboard and dont touch the bugs! If you do so you die and you need to start over. To win the game reach the water. 
+The game works like the old arcade game Frogger. Just without frogs.
+Move the player with the _up, down, left_ and _right_ keys of your keyboard and dont touch the bugs! If you do so you die and you need to start over. To win the game reach the water.
+
+Use the github pages link for a easy tryout: https://fr33d-.github.io/frontend-nanodegree-arcade-game/index.html
 
 
 ### To the developers:
-Its a simple HTML/JS game in a single view. index.html contains all semantic data. The js/app.js file has all player and enemy logic in it. To understand the logic please see the comments in that file. The js/engine.js provides the game engine and the js/resources.js provides all resources for the project. 
+Its a simple HTML/JS game in a single view. index.html contains all semantic data. The js/app.js file has all player and enemy logic in it. To understand the logic please see the comments in that file. The js/engine.js provides the game engine and the js/resources.js provides all resources for the project.
 
 The development uses:
 1. node and npm

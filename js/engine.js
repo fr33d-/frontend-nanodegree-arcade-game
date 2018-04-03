@@ -13,12 +13,10 @@
  * writing app.js a little simpler to work with.
  */
 
- let canvasWidth = 505;
- let canvasHeight = 605;
- let rowWidth = 83;
- let rowHeight = 101;
- let enemySpeed = 50;
- let playerSpeed = 200;
+ const canvasWidth = 505;
+ const canvasHeight = 605;
+ const rowWidth = 83;
+ const rowHeight = 101;
 
 var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
@@ -87,7 +85,6 @@ var Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
         updateAllEnemies(dt);
-        checkCollisions();
     }
 
     /* This is called by the update function and loops through all of the
@@ -101,7 +98,7 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        player.update(dt);
+        player.update(dt, allEnemies);
     }
 
     /* This function initially draws the "game level", it will then call
